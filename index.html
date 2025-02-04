@@ -1,11 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+  <head>
+    <title>Ajax Redux-StarWars</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="images/starwars-logo.png"  rel="icon" type="image/x-icon">
+    <link href="css/grid.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/TextPlugin.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
+    <script defer type="module" src="js/main.js"></script> 
+  </head>
+  <body>
+    <div class="full-width-grid-con sw-nav">
+      <section class="col-span-full">
+        <h2 class=" header"> All about StarWars</h2>
+        <img src="images/starwars-logo.png" alt="starwars logo" >
+      </section>
+    </div>
+
+    <div class="grid-con">
+      <section class="col-span-full m-col-span-6">
+        <h2 class="character-txt">Characters</h2>
+        <div id="character-con"></div>
+      </section>
+      <div class="col-span-full m-col-span-6">
+        
+        <section id="movie-con">
+          <!-- Template will go here -->
+          <template id="movie-template">
+            <h3 class="movie-heading"></h3>
+            <p class="movie-director"></p>
+            <img class="movie-image">
+            <p class="movie-description"></p>
+          </template>
+        </section>
+      </div>
+      <!-- Lightbox container -->
+      <div id="lightbox" class="lightbox">
+      <button id="close-lightbox" class="close-button">Close</button>
+      <h2 id="lightbox-title" class="lightbox-title">Movies</h2>
+      <div id="lightbox-content" class="lightbox-content"></div>
+      </div>
+    </div>
     
-</body>
+  </body>
 </html>
