@@ -25,7 +25,9 @@
                     img.classList.add("char-image");
 
                     // Array Convertion- using stringify to store the dataset, we then use JSON.parse to retrieve stored data
+
                     a.dataset.films = JSON.stringify(person.films);
+
                     //OR if i use 
                     // a.dataset.films = person.films.join(","); 
                     // for example then i will use split to convert bact to an array, but if i am declaring the comma as my join attribute, this will be an issue if the data or film URLs contains a comma, then its gonna break making the url invalid...
@@ -55,21 +57,27 @@
     }
 
     function getMovies(e) {
-        const films = JSON.parse(e.currentTarget.dataset.films); // collecting stored film URLs as an array [0,1,2,3,4,...]
+        const films = JSON.parse(e.currentTarget.dataset.films); 
+        // collecting stored film URLs as an array [0,1,2,3,4,...] which would show all the movies That character is in.
+
+
+        // const filmUrl = e.currentTarget.dataset.films;
+        //if i am fecthing just one movie
+        console.log(e.currentTarget.dataset.films);
 
       
         lightbox.style.display = "flex";
         lightboxContent.innerHTML = ""; 
 
-        films.forEach(filmUrl => {
-            fetch(filmUrl)
+        films.forEach(filmUrl => { //This would work if i am still looping from the array
+            fetch(filmUrl) //this would work to just fetch only one movie, there would  be no need using for.Each
             .then(response => response.json())
             .then(function(response) {
                 const clone = movieTemplate.content.cloneNode(true);
-                const movieHeading = clone.querySelector(".movie-heading");
-                const movieDescription = clone.querySelector(".movie-description");
-                const moviePoster = clone.querySelector(".movie-image");
-                const movieDirector = clone.querySelector(".movie-director");
+                const movieHeading = clone.querySelector(".film_title");
+                const movieDescription = clone.querySelector(".film_description");
+                const moviePoster = clone.querySelector(".film_images");
+                const movieDirector = clone.querySelector(".film_director");
 
                 movieHeading.textContent = `Title: ${response.title}`;
                 movieDescription.innerHTML = response.opening_crawl;
