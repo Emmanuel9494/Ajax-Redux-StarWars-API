@@ -86,6 +86,8 @@
                 moviePoster.alt = `${response.title} Poster`;
 
                 lightboxContent.appendChild(clone);
+
+            
                 })
                 .catch(function(error) {
                 const img = document.createElement("img");
@@ -107,3 +109,22 @@
 
     getChars();
 })();
+
+// (() => {
+//     gsap.registerPlugin(ScrollTrigger);  
+//     gsap.from(".trigger1", {
+//       scrollTrigger: {
+//         trigger: ".trigger",
+//         toggleActions: "play reverse play reverse",
+//         markers: false,
+//         start: "top 50%", 
+        
+        
+//       },
+//       opacity: 0,
+//       y: 100,
+//       duration: 1,
+//       ease: "power2.out"
+//     });
+
+// })();
