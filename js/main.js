@@ -4,6 +4,7 @@
     // const movieCon = document.querySelector("#movie-con");
     const lightbox = document.querySelector("#lightbox");
     const lightboxContent = document.querySelector("#lightbox-content");
+
     const closeLightbox = document.querySelector("#close-lightbox");
     const baseUrl = "https://swapi.dev/api/";
 
@@ -85,7 +86,12 @@
                 moviePoster.src = `images/${response.title}.jpg`;
                 moviePoster.alt = `${response.title} Poster`;
 
-                lightboxContent.appendChild(clone);
+                const lightBoxCon = document.createElement('div');
+                lightBoxCon.classList.add('flex');
+
+                lightBoxCon.appendChild(clone);
+                lightboxContent.appendChild(lightBoxCon);
+
 
             
                 })
