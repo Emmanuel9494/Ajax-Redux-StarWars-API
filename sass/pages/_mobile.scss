@@ -83,10 +83,13 @@ li img {
 .lightbox-content {
     background: #fff;
     padding: 20px;
+    
     border-radius: 5px;
-    width: 80%;
+    width: 100%;
     max-height: 80%;
     overflow-y: auto;
+
+    
 }
 
 .close-button {
@@ -95,9 +98,17 @@ li img {
     right: 10px;
     background-color: #e50000;
     color: white;
+    justify-items: center;
     border: none;
     padding: 10px;
     cursor: pointer;
+    z-index: 1;
+}
+
+.close-button p {
+    margin: 0 auto;
+    align-self: center;
+    margin-bottom: 80px;
 }
 
 .close-button:hover {
@@ -114,4 +125,22 @@ li img {
     top:15px;
     width: 100%;
     background-color: #fff;
+}
+
+
+
+.film_images {
+    display: flex;
+    justify-content: center; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+    max-width: 400px;
+    overflow: hidden;
+}
+
+.film_images img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover; 
+    display: block; 
 }

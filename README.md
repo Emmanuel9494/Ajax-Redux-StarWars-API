@@ -26,9 +26,9 @@ This project was developed by a two-person team:
 Feel free to reach out to us for collaborations, job opportunities, or inquiries about this project.
 
 - **Amari Buck**
-Email: Bro add your email here Amari  
-[LinkedIn](add your linkedln public profile here inside the brackets)
-[Github](https://github.com/bro add your github ID here inside the brackets)
+Email: amaribuck71@gmail.com  
+[LinkedIn](www.linkedin.com/in/amari-buck-ba1932323)
+[Github](https://github.com/CrytoGod)
 <br>
 
 - **Emmanuel Opadele**
