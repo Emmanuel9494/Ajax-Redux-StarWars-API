@@ -2,41 +2,46 @@ html{
     overflow-x: hidden;
     scrollbar-width: thin; /* For Firefox */
     scrollbar-color: #eeff01 #121212; 
-   background-color: #121212;
+   background-color: #000000;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center; 
     color: #fff;
-
+}
+#body-con{
+    background-image: url('../../images/background2.jpg');
    
-    
 }
 
 
 // header
 .sw-nav{
-    background-image: url('../../images/background.jpg');
+    background-image: url('../../images/background2.jpg');
 background-size: cover; /* This ensures the image covers the entire element */
 background-position: center; /* Centers the image */
 background-repeat: no-repeat; /* Ensures the image */
-    
     color: #eeff01;
+    padding: 20px 0;
 }
 .header{
     text-align: center;
     text-transform: uppercase;
+    margin-bottom: 20px;
 }
 
 .logo {
     display: block; 
     margin: 0 auto;  
-    width: 200px;
+    width: 100px;
 }
 
 
 //  Character style
 .character-txt{
     text-align: center;
+    font-size: 1.5rem;
+    margin: 20px 0;
+    color: #fff;
 }
 a {
     cursor: pointer;
@@ -45,42 +50,123 @@ a {
     text-align: center;
 }
 
-ul {
+#character-con{
+    padding: 20px;
+}
+
+#character-con ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 0;
+    margin: 0;
     list-style: none;
-    padding:0;
+}
+
+#character-con li {
+    margin: 0;
+    height: 200px;
+}
+
+.character-card {
+    position: relative;
     width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: #000;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: var(--bg-image);
+        background-size: cover;
+        background-position: center;
+        filter: blur(10px);
+        transform: scale(1.1);
+        z-index: 0;
+        opacity: 0.5;
+    }
+    
+    &:hover {
+        transform: scale(1.05);
+        z-index: 2;
+        
+        &::before {
+            opacity: 0.7;
+        }
+        
+        .character-info {
+            opacity: 1;
+        }
+
+        a {
+            opacity: 0;
+        }
+    }
+
+    a {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 10px;
+        background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        color: #fff;
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        z-index: 2;
+        transition: opacity 0.3s ease;
+    }
+}
+
+.char-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    position: relative;
+    z-index: 1;
+    background: transparent;
+}
+
+.character-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    padding: 15px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
     display: flex;
     flex-direction: column;
-}
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    z-index: 2;
 
-li {
-    padding: 10px;
-}
+    h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: #eeff01;
+    }
 
-li:nth-child(odd) {
-    color: white;
-    border: 1px solid #eeff01;
-}
-
-li img {
-    max-width: 50%;
-    display: block;
-    margin: 15px;
-}
-
-.loader{
-    width: 10%;
-    margin-top: -30px;
-}
-.char-image{
-    // display: none;
-    width: 80%;
-    height: auto;
-    margin: 15px;
-
-}
-#character-con{
-    display: flex;
+    p {
+        margin: 3px 0;
+        font-size: 0.9rem;
+    }
 }
 
 // Lightbox
@@ -91,8 +177,8 @@ li img {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: none; 
+    background-color: rgba(0, 0, 0, 0.9);
+    display: none;
     justify-content: center;
     align-items: center;
     z-index: 999;
@@ -102,69 +188,147 @@ li img {
 .lightbox-content {
     background: #fff;
     padding: 20px;
-    
-    border-radius: 5px;
-    width: 100%;
-    max-height: 80%;
+    margin: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-height: 80vh;
     overflow-y: auto;
-
-    
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    position: relative;
 }
 
 .close-button {
     position: absolute;
-    top: 50px;
+    top: 10px;
     right: 10px;
     background-color: #e50000;
     color: white;
-    justify-items: center;
     border: none;
-    padding: 10px;
+    padding: 8px 15px;
     cursor: pointer;
+    z-index: 1;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: #b30000;
+    }
+}
+
+.lightbox-title {
+    position: sticky;
+    top: 0;
+    text-align: center;
+    font-size: 20px;
+    color: #000000;
+    background-color: #fff;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     z-index: 1;
 }
 
-.close-button p {
-    margin: 0 auto;
-    align-self: center;
-    margin-bottom: 80px;
-}
-
-.close-button:hover {
-    background-color: #b30000;
-}
-/* Lightbox title styles */
-.lightbox-title {
-    position: absolute;
-    text-align: center;
-    font-size: 24px;
-    color: #000000; /* Use your brand color */
-    // margin-bottom: 200px;
-    // margin-left: 150px;
-    top:15px;
-    width: 100%;
-    background-color: #fff;
-}
-
-
-
 .film_images {
-    display: flex;
-    justify-content: center; 
-    flex-wrap: wrap; 
-    gap: 10px; 
-    max-width: 400px;
-    overflow: hidden;
+    max-width: 100%;
+    margin: 15px auto;
+    text-align: center;
 }
 
 .film_images img {
     width: 200px;
     height: 200px;
-    object-fit: cover; 
-    display: block; 
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    background: #000;
 }
 
-.lightbox-content p {
+.film_title {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #000;
+    font-weight: bold;
+}
+
+.film_director {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.film_description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.movies-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 10px;
+}
+
+.movie-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+    }
+}
+
+.film_images {
+    width: 100%;
+    max-width: 200px;
+    height: 200px;
+    object-fit: contain;
+    margin: 15px auto;
     display: block;
-    
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    background: #000;
+}
+
+.film_title {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+}
+
+.film_director {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+    font-style: italic;
+    text-align: center;
+}
+
+.film_description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+@media screen and (min-width: 768px) {
+    .movies-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .movies-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }

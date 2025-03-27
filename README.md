@@ -1,4 +1,6 @@
 # **Star Wars API Project**
+![Star Wars Project Screenshot](images/StarWars-Ajax.png)
+
 
 ## **Table of Contents**
 - [Introduction](#introduction)
