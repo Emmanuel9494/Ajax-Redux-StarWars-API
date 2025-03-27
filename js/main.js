@@ -19,35 +19,55 @@
 
                 peopleStarWars.forEach(person => {
                     const li = document.createElement("li");
-                    const a = document.createElement("a");
-                    a.textContent = person.name;
+                    const characterCard = document.createElement("div");
+                    characterCard.classList.add("character-card");
+                    
+                    const nameLink = document.createElement("a");
+                    nameLink.textContent = person.name;
+                    nameLink.dataset.films = JSON.stringify(person.films);
+                    
                     const img = document.createElement("img");
-                    img.src = `images/${person.name}.png`;
+                    img.src = `../images/${person.name}.png`;
                     img.classList.add("char-image");
+                    img.alt = `${person.name} character image`;
 
-                    // Array Convertion- using stringify to store the dataset, we then use JSON.parse to retrieve stored data
+                    const characterInfo = document.createElement("div");
+                    characterInfo.classList.add("character-info");
+                    characterInfo.innerHTML = `
+                        <h3>${person.name}</h3>
+                        <p>Birth Year: ${person.birth_year}</p>
+                        <p>Gender: ${person.gender}</p>
+                        <p>Films: ${person.films.length}</p>
+                    `;
 
-                    a.dataset.films = JSON.stringify(person.films);
+                    // Set the background image for the blurred effect
+                    characterCard.style.setProperty('--bg-image', `url(../images/${person.name}.png)`);
+                    characterCard.style.backgroundImage = `var(--bg-image)`;
 
-                    //OR if i use 
-                    // a.dataset.films = person.films.join(","); 
-                    // for example then i will use split to convert bact to an array, but if i am declaring the comma as my join attribute, this will be an issue if the data or film URLs contains a comma, then its gonna break making the url invalid...
-
-                    li.appendChild(a);
+                    characterCard.appendChild(img);
+                    characterCard.appendChild(nameLink);
+                    characterCard.appendChild(characterInfo);
+                    li.appendChild(characterCard);
                     ul.appendChild(li);
-                    ul.appendChild(img);
                 });
 
                 charContainer.appendChild(ul);
             })
             .then(() => {
-                document.querySelectorAll("#character-con li a").forEach(link => {
-                    link.addEventListener("click", getMovies);
+                // Add click event to the entire card instead of just the link
+                document.querySelectorAll(".character-card").forEach(card => {
+                    card.addEventListener("click", (e) => {
+                        // Prevent the event from triggering if clicking the link
+                        if (e.target.tagName !== 'A') {
+                            const films = JSON.parse(card.querySelector('a').dataset.films);
+                            getMovies({ currentTarget: { dataset: { films: JSON.stringify(films) } } });
+                        }
+                    });
                 });
             })
             .catch(function(error) {
                 const img = document.createElement("img");
-                img.src = "images/bouncing-squares.svg";
+                img.src = "../images/bouncing-squares.svg";
                 img.alt = "error loader";
                 img.classList.add("loader");
 
@@ -58,59 +78,63 @@
     }
 
     function getMovies(e) {
-        const films = JSON.parse(e.currentTarget.dataset.films); 
-        // collecting stored film URLs as an array [0,1,2,3,4,...] which would show all the movies That character is in.
-
-
-        // const filmUrl = e.currentTarget.dataset.films;
-        //if i am fecthing just one movie
-        console.log(e.currentTarget.dataset.films);
-
-      
+        const films = JSON.parse(e.currentTarget.dataset.films);
         lightbox.style.display = "flex";
         lightboxContent.innerHTML = ""; 
 
-        films.forEach(filmUrl => { //This would work if i am still looping from the array
-            fetch(filmUrl) //this would work to just fetch only one movie, there would  be no need using for.Each
-            .then(response => response.json())
-            .then(function(response) {
+        // Create a container for all movies
+        const moviesContainer = document.createElement('div');
+        moviesContainer.classList.add('movies-grid');
+
+        // Fetch all movies in parallel
+        Promise.all(films.map(filmUrl => 
+            fetch(filmUrl)
+                .then(response => response.json())
+        ))
+        .then(responses => {
+            responses.forEach(response => {
                 const clone = movieTemplate.content.cloneNode(true);
                 const movieHeading = clone.querySelector(".film_title");
                 const movieDescription = clone.querySelector(".film_description");
                 const moviePoster = clone.querySelector(".film_images");
                 const movieDirector = clone.querySelector(".film_director");
 
-                movieHeading.textContent = `Title: ${response.title}`;
+                movieHeading.textContent = response.title;
                 movieDescription.innerHTML = response.opening_crawl;
                 movieDirector.innerHTML = `Director: ${response.director}`;
-                moviePoster.src = `images/${response.title}.jpg`;
+                moviePoster.src = `../images/${response.title}.jpg`;
                 moviePoster.alt = `${response.title} Poster`;
 
-                const lightBoxCon = document.createElement('div');
-                lightBoxCon.classList.add('flex');
+                const movieCard = document.createElement('div');
+                movieCard.classList.add('movie-card');
+                movieCard.appendChild(clone);
+                moviesContainer.appendChild(movieCard);
+            });
 
-                lightBoxCon.appendChild(clone);
-                lightboxContent.appendChild(lightBoxCon);
+            lightboxContent.appendChild(moviesContainer);
+        })
+        .catch(function(error) {
+            const img = document.createElement("img");
+            img.src = "../images/bouncing-squares.svg";
+            img.alt = "error loader";
+            img.classList.add("loader");
 
-
-            
-                })
-                .catch(function(error) {
-                const img = document.createElement("img");
-                    img.src = "images/bouncing-squares.svg";
-                    img.alt = "error loader";
-                    img.classList.add("loader");
-
-                lightboxContent.innerHTML = `<p>Error Fetching Movie Details</p>`;
-                lightboxContent.appendChild(img);
+            lightboxContent.innerHTML = `<p>Error Fetching Movie Details</p>`;
+            lightboxContent.appendChild(img);
             console.log(error);
-                });
         });
     }
 
-     // Close the lightbox when the close button is clicked
-     closeLightbox.addEventListener("click", () => {
+    // Close the lightbox when the close button is clicked
+    closeLightbox.addEventListener("click", () => {
         lightbox.style.display = "none";
+    });
+
+    // Close lightbox when clicking outside
+    lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) {
+            lightbox.style.display = "none";
+        }
     });
 
     getChars();
